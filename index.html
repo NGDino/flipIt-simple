@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlipIt Denver — Your Local Marketplace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-col nav-left">
+      <a href="#" class="directory-link">Directory</a>
+    </div>
+    <div class="nav-col nav-center">
+      <a href="index.html">
+        <img src="assets/flipit_logo.png" alt="FlipIt" class="nav-logo">
+      </a>
+    </div>
+    <div class="nav-col nav-right"></div>
+  </nav>
+
+  <main class="hero">
+    <img src="assets/flipit_hero.png" alt="FlipIt Denver" class="hero-image">
+    <p class="tagline">Your Local Marketplace</p>
+
+    <section class="form-section">
+      <form id="waitlist-form" class="waitlist-form" novalidate>
+        <input type="text" id="name" name="name" class="form-input" placeholder="Your Name" required>
+        <input type="email" id="email" name="email" class="form-input" placeholder="Your Email" required>
+        <button type="submit" id="submit-btn" class="form-submit">Join the Waitlist</button>
+      </form>
+      <p id="form-message" class="form-message" hidden></p>
+    </section>
+  </main>
+
+  <script>
+    const SCRIPT_URL = "YOUR_APPS_SCRIPT_URL_HERE";
+
+    const form = document.getElementById("waitlist-form");
+    const nameInput = document.getElementById("name");
+    const emailInput = document.getElementById("email");
+    const submitBtn = document.getElementById("submit-btn");
+    const message = document.getElementById("form-message");
+
+    const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    function showMessage(text) {
+      message.textContent = text;
+      message.hidden = false;
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const name = nameInput.value.trim();
+      const email = emailInput.value.trim();
+
+      if (!name || !email) {
+        showMessage("Please fill in both fields.");
+        return;
+      }
+      if (!EMAIL_RE.test(email)) {
+        showMessage("Please enter a valid email address.");
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Submitting...";
+      message.hidden = true;
+
+      try {
+        await fetch(SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email }),
+        });
+        form.hidden = true;
+        showMessage("You're on the list. We'll be in touch.");
+      } catch (err) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Join the Waitlist";
+        showMessage("Something went wrong. Please try again.");
+      }
+    });
+  </script>
+</body>
+</html>
