@@ -99,6 +99,19 @@ body {
   padding: 0 0 64px;
 }
 
+.waitlist-form[hidden] {
+  display: none;
+}
+
+/* Honeypot: off-screen (not display:none, so bots still autofill it) */
+.hp-field {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 .form-input {
   width: 100%;
   padding: 12px 16px;
@@ -151,6 +164,87 @@ body {
   font-weight: 700;
   font-size: 1.3rem;
   text-align: center;
+}
+
+/* ===== Connect ===== */
+.connect-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 32px;
+}
+
+.connect-link {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: #39FF14;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: opacity 0.2s ease;
+}
+
+.connect-link:hover {
+  opacity: 0.75;
+}
+
+.connect-icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+  margin-top: 24px;
+}
+
+.connect-icons[hidden] {
+  display: none;
+}
+
+.connect-icon {
+  display: inline-flex;
+  color: #39FF14;
+  transition: opacity 0.2s ease;
+}
+
+.connect-icon:hover {
+  opacity: 0.75;
+}
+
+.connect-icon svg {
+  width: 42px;
+  height: 42px;
+  display: block;
+}
+
+/* ===== Footer ===== */
+.site-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 28px;
+  margin-top: 32px;
+  padding: 32px 24px;
+  border-top: 1px solid #39FF14;
+}
+
+.social-link {
+  display: inline-flex;
+  color: #39FF14;
+  transition: opacity 0.2s ease;
+}
+
+.social-link:hover {
+  opacity: 0.75;
+}
+
+.social-link svg {
+  width: 32px;
+  height: 32px;
+  display: block;
 }
 
 /* ===== Responsive ===== */

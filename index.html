@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FlipIt Denver — Your Local Marketplace</title>
+  <title>FlipIt Denver</title>
+  <link rel="icon" type="image/png" href="assets/flipit_logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
@@ -12,7 +13,7 @@
 <body>
   <nav class="navbar">
     <div class="nav-col nav-left">
-      <a href="#" class="directory-link">Directory</a>
+      <!-- <a href="#" class="directory-link">Directory</a> -->
     </div>
     <div class="nav-col nav-center">
       <a href="index.html">
@@ -24,24 +25,74 @@
 
   <main class="hero">
     <img src="assets/flipit_hero.png" alt="FlipIt Denver" class="hero-image">
-    <p class="tagline">Your Local Marketplace</p>
+    <p class="tagline">Join the Revolution</p>
 
     <section class="form-section">
       <form id="waitlist-form" class="waitlist-form" novalidate>
         <input type="text" id="name" name="name" class="form-input" placeholder="Your Name" required>
         <input type="email" id="email" name="email" class="form-input" placeholder="Your Email" required>
-        <button type="submit" id="submit-btn" class="form-submit">Join the Waitlist</button>
+        <!-- Honeypot: hidden from real users, autofilled by bots -->
+        <input type="text" id="company" name="company" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button type="submit" id="submit-btn" class="form-submit">Claim Your Spot</button>
       </form>
       <p id="form-message" class="form-message" hidden></p>
     </section>
+
+    <section class="connect-section">
+      <button type="button" id="connect-toggle" class="connect-link" aria-expanded="false" aria-controls="connect-icons">Want to Connect?</button>
+      <div id="connect-icons" class="connect-icons" hidden>
+        <a href="mailto:zack@flipitdenver.com" class="connect-icon" aria-label="Email FlipIt Denver">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <rect x="2.5" y="4.5" width="19" height="15" rx="2.5"></rect>
+            <path d="M3.5 6.5l8.5 6.5 8.5-6.5"></path>
+          </svg>
+        </a>
+        <a href="https://www.instagram.com/flipitdenver/" class="connect-icon" target="_blank" rel="noopener noreferrer" aria-label="FlipIt Denver on Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <rect x="2" y="2" width="20" height="20" rx="5.5"></rect>
+            <circle cx="12" cy="12" r="4.2"></circle>
+            <circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"></circle>
+          </svg>
+        </a>
+        <a href="https://www.tiktok.com/@flipitdenver" class="connect-icon" target="_blank" rel="noopener noreferrer" aria-label="FlipIt Denver on TikTok">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <path d="M9.5 11.2a4 4 0 1 0 3.5 3.97V2.5c.6 2.4 2.3 4.1 4.7 4.4"></path>
+          </svg>
+        </a>
+      </div>
+    </section>
   </main>
 
+  <footer class="site-footer">
+    <a href="https://www.instagram.com/flipitdenver/" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="FlipIt Denver on Instagram">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+        <rect x="2" y="2" width="20" height="20" rx="5.5"></rect>
+        <circle cx="12" cy="12" r="4.2"></circle>
+        <circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"></circle>
+      </svg>
+    </a>
+    <a href="https://www.tiktok.com/@flipitdenver" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="FlipIt Denver on TikTok">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+        <path d="M9.5 11.2a4 4 0 1 0 3.5 3.97V2.5c.6 2.4 2.3 4.1 4.7 4.4"></path>
+      </svg>
+    </a>
+  </footer>
+
   <script>
-    const SCRIPT_URL = "YOUR_APPS_SCRIPT_URL_HERE";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxeA1kX4HEhjyR72U84R0HyqjfNQ6pQFxYs74AR1N1PvFcGajc8pCSDesCNLg3gHitICQ/exec";
+
+    const connectToggle = document.getElementById("connect-toggle");
+    const connectIcons = document.getElementById("connect-icons");
+    connectToggle.addEventListener("click", () => {
+      const show = connectIcons.hidden;
+      connectIcons.hidden = !show;
+      connectToggle.setAttribute("aria-expanded", String(show));
+    });
 
     const form = document.getElementById("waitlist-form");
     const nameInput = document.getElementById("name");
     const emailInput = document.getElementById("email");
+    const companyInput = document.getElementById("company");
     const submitBtn = document.getElementById("submit-btn");
     const message = document.getElementById("form-message");
 
@@ -52,8 +103,25 @@
       message.hidden = false;
     }
 
+    function secureSpot() {
+      form.hidden = true;
+      showMessage("Spot Secured");
+    }
+
+    function resetButton() {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Claim Your Spot";
+    }
+
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
+
+      // Honeypot: real users can't reach this field. If it's filled, it's a bot —
+      // fake success and skip the request entirely so we give away no signal.
+      if (companyInput.value) {
+        secureSpot();
+        return;
+      }
 
       const name = nameInput.value.trim();
       const email = emailInput.value.trim();
@@ -72,16 +140,24 @@
       message.hidden = true;
 
       try {
-        await fetch(SCRIPT_URL, {
+        const res = await fetch(SCRIPT_URL, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, email }),
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({ name, email, company: companyInput.value }),
         });
-        form.hidden = true;
-        showMessage("You're on the list. We'll be in touch.");
+        const data = await res.json();
+
+        if (res.ok && data.status === "success") {
+          secureSpot();
+        } else if (data.status === "duplicate") {
+          resetButton();
+          showMessage("You're already on the list.");
+        } else {
+          resetButton();
+          showMessage("Something went wrong. Please try again.");
+        }
       } catch (err) {
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Join the Waitlist";
+        resetButton();
         showMessage("Something went wrong. Please try again.");
       }
     });
